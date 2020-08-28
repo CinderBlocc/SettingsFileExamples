@@ -18,28 +18,25 @@ private:
     //                           Component10_GreyedComponentStart; // Will disable all components below if the evaluated cvar is false until grayed component end is found
     //                           Component11_GreyedComponentEnd;   // Ends the earlier declared grayed component section
     std::shared_ptr<std::string> Component12_Textbox;              // Cvar value = textbox value. Note: this will automatically be applied as soon as a single character is added/removed/changed.
-    std::shared_ptr<LinearColor> Component13_ColorEditNoAlpha;     // Color selector. Doesn't include alpha editing
-    std::shared_ptr<LinearColor> Component14_ColorEditAlpha;       // Color selector. Includes alpha editing
+    std::shared_ptr<LinearColor> Component13_ColorEdit;            // Color selector
 
 public:
 	void onLoad() override;
 	void onUnload() override;
 
     // For more information about each component, go to the implementation of the following functions
-    void OnComponent0Action();
-    void OnComponent1Action();
-    void OnComponent2Action();
-    void OnComponent3Action();
-    void OnComponent4Action();
-    void OnComponent5Action();
-    void OnComponent6Action();
-    void OnComponent7Action();
-    void OnComponent8Action();
-    void OnComponent9Action();
-    void OnComponent10Action();
-    void OnComponent11Action();
-    void OnComponent12Action();
-    void OnComponent13Action();
-    void OnComponent14Action();
-
+    void Component0();
+    void Component1();
+    void Component2();
+    void Component3();
+    void Component4();
+    void Component5();
+    void Component6();
+    void Component7();
+    void Component8();
+    void Component9();
+    void Component10();
+    void Component11();
+    void Component12();
+    void Component13();
 };
