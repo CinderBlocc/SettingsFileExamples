@@ -6,25 +6,18 @@ BAKKESMOD_PLUGIN(SettingsFileExamples, "Examples of all plugins settings", "1.0"
 
 void SettingsFileExamples::onLoad()
 {
-    //enabled = std::make_shared<bool>(false);
-    //cvarManager->registerCvar("SettingsFileExamples_Enabled", "0", "Enable the SettingsFileExamples plugin", true, true, 0, true, 1).bindTo(enabled);
+    // Finish setting up the cvar storage here
 
-	//cvarManager->registerNotifier("NOTIFIER", [this](std::vector<std::string> params){FUNCTION();}, "DESCRIPTION", PERMISSION_ALL);
-	//cvarManager->registerCvar("CVAR", "DEFAULTVALUE", "DESCRIPTION", true, true, MINVAL, true, MAXVAL);//.bindTo(CVARVARIABLE);
-	//gameWrapper->HookEvent("FUNCTIONNAME", std::bind(&SettingsFileExamples::FUNCTION, this));
-	//gameWrapper->HookEventWithCallerPost<ActorWrapper>("FUNCTIONNAME", std::bind(&SettingsFileExamples::FUNCTION, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-	//gameWrapper->RegisterDrawable(bind(&SettingsFileExamples::Render, this, std::placeholders::_1));
-
-    // < Component 0 > has no storage
+    // Component 0 has no storage
     Component1_Checkbox           = std::make_shared<bool>(false);
     Component2_FloatRangeSlider   = std::make_shared<float>(0.f);
     Component3_IntegerRangeSlider = std::make_shared<int>(0);
     Component4_FloatSlider        = std::make_shared<float>(0.f);
     Component5_IntegerSlider      = std::make_shared<int>(0);
     Component6_Combobox           = std::make_shared<std::string>("");
-    // < Components 7 to 11 > have no storage
+    // Components 7 to 11 have no storage
     Component12_Textbox           = std::make_shared<std::string>("");
-    Component13_ColorEdit         = std::make_shared<LinearColor>(LinearColor{0,0,0,0});
+    //Component13_ColorEdit         = std::make_shared<LinearColor>(LinearColor{0,0,0,0});
 
 
     //Registers a notifier / command. Mostly used with component 0 (button)
@@ -36,18 +29,79 @@ void SettingsFileExamples::onLoad()
     CVarWrapper Cvar_Component3  = cvarManager->registerCvar("Settings_Component3",  "(33, 66)",     "Integer range component",  true, true, 0, true, 100);
     CVarWrapper Cvar_Component4  = cvarManager->registerCvar("Settings_Component4",  "0.5",          "Float slider component",   true, true, 0, true, 1);
     CVarWrapper Cvar_Component5  = cvarManager->registerCvar("Settings_Component5",  "50",           "Integer slider component", true, true, 0, true, 100);
-    CVarWrapper Cvar_Component6  = cvarManager->registerCvar("Settings_Component6",  "Option1",      "Combobox component",       true);
+    CVarWrapper Cvar_Component6  = cvarManager->registerCvar("Settings_Component6",  "Cat",          "Combobox component",       true);
     CVarWrapper Cvar_Component12 = cvarManager->registerCvar("Settings_Component12", "InputText",    "Textbox component",        true);
-    CVarWrapper Cvar_Component13 = cvarManager->registerCvar("Settings_Component13", "#FFFFFF",      "Color edit component",     true);
+    //CVarWrapper Cvar_Component13 = cvarManager->registerCvar("Settings_Component13", "#FFFFFF",      "Color edit component",     true);
     
     //Bind cvar to variable (optional). You can still access a bound or unbound cvar via `cvarManager->getCvar("Cvar_Name").getTYPEValue()`
     //NOTE: You cannot set a cvar value through its bind. You have to set its value via  `cvarManager->getCvar("Cvar_Name").setValue(value)`
     Cvar_Component1.bindTo(Component1_Checkbox);
+    Cvar_Component2.bindTo(Component2_FloatRangeSlider);
+    Cvar_Component3.bindTo(Component3_IntegerRangeSlider);
+    Cvar_Component4.bindTo(Component4_FloatSlider);
+    Cvar_Component5.bindTo(Component5_IntegerSlider);
+    Cvar_Component6.bindTo(Component6_Combobox);
+    Cvar_Component12.bindTo(Component12_Textbox);
+    //Cvar_Component13.bindTo(Component13_ColorEdit);
 
     //Run a function if the value has changed (optional)
-    Cvar_Component1.addOnValueChanged(std::bind(&Component1, this));
+    Cvar_Component1.addOnValueChanged(  std::bind(&SettingsFileExamples::Component1,  this));
+    Cvar_Component2.addOnValueChanged(  std::bind(&SettingsFileExamples::Component2,  this));
+    Cvar_Component3.addOnValueChanged(  std::bind(&SettingsFileExamples::Component3,  this));
+    Cvar_Component4.addOnValueChanged(  std::bind(&SettingsFileExamples::Component4,  this));
+    Cvar_Component5.addOnValueChanged(  std::bind(&SettingsFileExamples::Component5,  this));
+    Cvar_Component6.addOnValueChanged(  std::bind(&SettingsFileExamples::Component6,  this));
+    Cvar_Component12.addOnValueChanged( std::bind(&SettingsFileExamples::Component12, this));
+    //Cvar_Component13.addOnValueChanged( std::bind(&SettingsFileExamples::Component13, this));
+
+
+    //Extra cvars to make the plugin functional. A couple helpful notes in here, but other than that this can be ignored.
+    HandleExtraCvars();
 }
 void SettingsFileExamples::onUnload() {}
+void SettingsFileExamples::HandleExtraCvars()
+{
+    //Enable the render function to display the color edit
+    //Note that if you're only binding a variable and not also adding onValueChanged (or vice versa), you can just tack the bind/valuechanged to the end of the register call
+    EnableRender = std::make_shared<bool>(false);
+    cvarManager->registerCvar("Settings_Extra_EnableRender", "0", "Checkbox component", true).bindTo(EnableRender);
+
+    SameLineCheckbox1 = std::make_shared<bool>(false);
+    SameLineCheckbox2 = std::make_shared<bool>(false);
+    cvarManager->registerCvar("Settings_Extra_SameLineCheckbox1", "1", "SameLine example checkbox 1", true).bindTo(SameLineCheckbox1);
+    cvarManager->registerCvar("Settings_Extra_SameLineCheckbox2", "1", "SameLine example checkbox 2", true).bindTo(SameLineCheckbox2);
+
+    GreyedComponentCheckbox1   = std::make_shared<bool>(false);
+    GreyedComponentNesting1    = std::make_shared<bool>(false);
+    GreyedComponentNesting2    = std::make_shared<bool>(false);
+    GreyedComponentNesting3    = std::make_shared<bool>(false);
+    GreyedComponentNesting4    = std::make_shared<bool>(false);
+    GreyedComponentInversion1  = std::make_shared<bool>(false);
+    cvarManager->registerCvar("Settings_Extra_GreyedCheckbox1", "1", "GreyedComponent example checkbox 1", true).bindTo(GreyedComponentCheckbox1);
+    cvarManager->registerCvar("Settings_Extra_GreyedCheckboxNesting1", "1", "GreyedComponent nesting example checkbox 1", true).bindTo(GreyedComponentNesting1);
+    cvarManager->registerCvar("Settings_Extra_GreyedCheckboxNesting2", "1", "GreyedComponent nesting example checkbox 2", true).bindTo(GreyedComponentNesting2);
+    cvarManager->registerCvar("Settings_Extra_GreyedCheckboxNesting3", "1", "GreyedComponent nesting example checkbox 3", true).bindTo(GreyedComponentNesting3);
+    cvarManager->registerCvar("Settings_Extra_GreyedCheckboxNesting4", "1", "GreyedComponent nesting example checkbox 4", true).bindTo(GreyedComponentNesting4);
+    cvarManager->registerCvar("Settings_Extra_GreyedCheckboxInversion1", "1", "GreyedComponent inversion example checkbox 1", true).bindTo(GreyedComponentInversion1);
+}
+
+void SettingsFileExamples::Render(CanvasWrapper canvas)
+{
+    // This function is here to display the color edit component in action
+    // Render is called every game render frame
+
+    //if(!(*EnableRender))
+    //{
+    //    return;
+    //}
+    //
+    //Vector2 TopLeft = {50, 50};
+    //Vector2 BoxSize = {100, 100};
+    //
+    //canvas.SetColor(*Component13_ColorEdit);
+    //canvas.SetPosition(TopLeft);
+    //canvas.FillBox(BoxSize);
+}
 
 
 
@@ -81,9 +135,9 @@ void SettingsFileExamples::Component0()
     //Opens console to show the following printed information
     cvarManager->executeCommand("openmenu console2");
     
-    float X = 10;
-    float Y = 5;
-    float Z = X * Y;
+    int X = 10;
+    int Y = 5;
+    int Z = X * Y;
 
     cvarManager->log("The result of " + std::to_string(X) + " times " + std::to_string(Y) + " is: " + std::to_string(Z));
 }
@@ -123,6 +177,8 @@ void SettingsFileExamples::Component1()
 
     DESCRIPTION:
         A slider with two bars in it that define a range of float values.
+        Getting the value from the bound variable will always be the same unless you call getFloatValue().
+        Calling getFloatValue() will set a new random value within the specified range to the variable.
 
     UI ACTION:
         The range has been updated.
@@ -133,6 +189,9 @@ void SettingsFileExamples::Component1()
 */
 void SettingsFileExamples::Component2()
 {
+    // Result from getFloatValue() could optionally be stored in a separate float variable
+    /*float newRandValueInRange = */cvarManager->getCvar("Settings_Component2").getFloatValue();
+    cvarManager->log("New float range random value: " + std::to_string(*Component2_FloatRangeSlider));
 }
 
 
@@ -143,6 +202,8 @@ void SettingsFileExamples::Component2()
 
     DESCRIPTION:
         A slider with two bars in it that define a range of integer values.
+        Getting the value from the bound variable will always be the same unless you call getIntValue().
+        Calling getIntValue() will set a new random value within the specified range to the variable.
 
     UI ACTION:
         The range has been updated.
@@ -153,6 +214,9 @@ void SettingsFileExamples::Component2()
 */
 void SettingsFileExamples::Component3()
 {
+    // Result from getIntValue() could optionally be stored in a separate float variable
+    /*int newRandValueInRange = */cvarManager->getCvar("Settings_Component3").getIntValue();
+    cvarManager->log("New integer range random value: " + std::to_string(*Component3_IntegerRangeSlider));
 }
 
 
@@ -172,6 +236,7 @@ void SettingsFileExamples::Component3()
 */
 void SettingsFileExamples::Component4()
 {
+    cvarManager->log("New value in float slider: " + std::to_string(*Component4_FloatSlider));
 }
 
 
@@ -191,6 +256,7 @@ void SettingsFileExamples::Component4()
 */
 void SettingsFileExamples::Component5()
 {
+    cvarManager->log("New value in integer slider: " + std::to_string(*Component5_IntegerSlider));
 }
 
 
@@ -214,6 +280,7 @@ void SettingsFileExamples::Component5()
 */
 void SettingsFileExamples::Component6()
 {
+    cvarManager->log("New value selected in combobox: " + *Component6_Combobox);
 }
 
 
@@ -257,13 +324,14 @@ void SettingsFileExamples::Component8()
 }
 
 
-// COMPONENT 9: Text //
+// COMPONENT 9: Label //
 /*
     FORMAT:
         9|Label
 
     DESCRIPTION:
         This component prints whatever text follows "9|".
+        LIMITED TO 1024 CHARACTERS!
         Cvar values (i.e. dynamic text) can be included between two dollar signs ($). For example:
             9|cl_goalreplay_pov value is $cl_goalreplay_pov$.
         will display in the UI as:
@@ -339,11 +407,11 @@ void SettingsFileExamples::Component11()
 */
 void SettingsFileExamples::Component12()
 {
-
+    cvarManager->log("New value typed in textbox: " + *Component12_Textbox);
 }
 
 
-// COMPONENT 13: Color Edit
+// COMPONENT 13: Color Edit - CURRENTLY NOT AVAILABLE. COMING SOON tm
 /*
     FORMAT:
         13|Label|CvarName
@@ -360,5 +428,5 @@ void SettingsFileExamples::Component12()
 */
 void SettingsFileExamples::Component13()
 {
-
+    // See Render function at the top of this file for colors in action
 }

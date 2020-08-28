@@ -24,4 +24,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="0_SettingsFileExamples.set" />
+  </ItemGroup>
 </Project>
