@@ -184,7 +184,7 @@ void SettingsFileExamples::Component1()
         The range has been updated.
 
     CONSOLE COMMANDS:
-        <CvarName> (<float value> <float value>)
+        <CvarName> (<float value>, <float value>)
         <CvarName> <float value>
 */
 void SettingsFileExamples::Component2()
@@ -209,7 +209,7 @@ void SettingsFileExamples::Component2()
         The range has been updated.
 
     CONSOLE COMMANDS:
-        <CvarName> (<integer value> <integer value>)
+        <CvarName> (<integer value>, <integer value>)
         <CvarName> <integer value>
 */
 void SettingsFileExamples::Component3()
