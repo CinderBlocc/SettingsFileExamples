@@ -18,9 +18,15 @@
     <ClInclude Include="SettingsFileExamples.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CvarMacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SettingsFileExamples.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtraFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,4 +1,5 @@
 #include "SettingsFileExamples.h"
+#include "CvarMacros.h"
 #include "bakkesmod\wrappers\includes.h"
 
 BAKKESMOD_PLUGIN(SettingsFileExamples, "Examples of all plugins settings", "1.0", PLUGINTYPE_FREEPLAY)
@@ -6,8 +7,6 @@ BAKKESMOD_PLUGIN(SettingsFileExamples, "Examples of all plugins settings", "1.0"
 
 void SettingsFileExamples::onLoad()
 {
-    // Finish setting up the cvar storage here
-
     // Component 0 has no storage
     Component1_Checkbox           = std::make_shared<bool>(false);
     Component2_FloatRangeSlider   = std::make_shared<float>(0.f);
@@ -17,21 +16,21 @@ void SettingsFileExamples::onLoad()
     Component6_Combobox           = std::make_shared<std::string>("");
     // Components 7 to 11 have no storage
     Component12_Textbox           = std::make_shared<std::string>("");
-    //Component13_ColorEdit         = std::make_shared<LinearColor>(LinearColor{0,0,0,0});
+    Component13_ColorEdit         = std::make_shared<LinearColor>(LinearColor{0,0,0,0});
 
 
     //Registers a notifier / command. Mostly used with component 0 (button)
-    cvarManager->registerNotifier("Settings_Component0", [this](std::vector<std::string> params){Component0();}, "Opens console", PERMISSION_ALL);
+    cvarManager->registerNotifier(NOTIFIER_COMPONENT_0, [this](std::vector<std::string> params){Component0();}, "Opens console", PERMISSION_ALL);
     
     //Registers a cvar (console variable)
-    CVarWrapper Cvar_Component1  = cvarManager->registerCvar("Settings_Component1",  "1",            "Checkbox component",       true);
-    CVarWrapper Cvar_Component2  = cvarManager->registerCvar("Settings_Component2",  "(0.33, 0.66)", "Float range component",    true, true, 0, true, 1);
-    CVarWrapper Cvar_Component3  = cvarManager->registerCvar("Settings_Component3",  "(33, 66)",     "Integer range component",  true, true, 0, true, 100);
-    CVarWrapper Cvar_Component4  = cvarManager->registerCvar("Settings_Component4",  "0.5",          "Float slider component",   true, true, 0, true, 1);
-    CVarWrapper Cvar_Component5  = cvarManager->registerCvar("Settings_Component5",  "50",           "Integer slider component", true, true, 0, true, 100);
-    CVarWrapper Cvar_Component6  = cvarManager->registerCvar("Settings_Component6",  "Cat",          "Combobox component",       true);
-    CVarWrapper Cvar_Component12 = cvarManager->registerCvar("Settings_Component12", "InputText",    "Textbox component",        true);
-    //CVarWrapper Cvar_Component13 = cvarManager->registerCvar("Settings_Component13", "#FFFFFF",      "Color edit component",     true);
+    CVarWrapper Cvar_Component1  = cvarManager->registerCvar(CVAR_COMPONENT_1,  "1",            "Checkbox component",       true);
+    CVarWrapper Cvar_Component2  = cvarManager->registerCvar(CVAR_COMPONENT_2,  "(0.33, 0.66)", "Float range component",    true, true, 0, true, 1);
+    CVarWrapper Cvar_Component3  = cvarManager->registerCvar(CVAR_COMPONENT_3,  "(33, 66)",     "Integer range component",  true, true, 0, true, 100);
+    CVarWrapper Cvar_Component4  = cvarManager->registerCvar(CVAR_COMPONENT_4,  "0.5",          "Float slider component",   true, true, 0, true, 1);
+    CVarWrapper Cvar_Component5  = cvarManager->registerCvar(CVAR_COMPONENT_5,  "50",           "Integer slider component", true, true, 0, true, 100);
+    CVarWrapper Cvar_Component6  = cvarManager->registerCvar(CVAR_COMPONENT_6,  "Cat",          "Combobox component",       true);
+    CVarWrapper Cvar_Component12 = cvarManager->registerCvar(CVAR_COMPONENT_12, "InputText",    "Textbox component",        true);
+    CVarWrapper Cvar_Component13 = cvarManager->registerCvar(CVAR_COMPONENT_13, "#FFFFFF",      "Color edit component",     true);
     
     //Bind cvar to variable (optional). You can still access a bound or unbound cvar via `cvarManager->getCvar("Cvar_Name").getTYPEValue()`
     //NOTE: You cannot set a cvar value through its bind. You have to set its value via  `cvarManager->getCvar("Cvar_Name").setValue(value)`
@@ -42,7 +41,7 @@ void SettingsFileExamples::onLoad()
     Cvar_Component5.bindTo(Component5_IntegerSlider);
     Cvar_Component6.bindTo(Component6_Combobox);
     Cvar_Component12.bindTo(Component12_Textbox);
-    //Cvar_Component13.bindTo(Component13_ColorEdit);
+    Cvar_Component13.bindTo(Component13_ColorEdit);
 
     //Run a function if the value has changed (optional)
     Cvar_Component1.addOnValueChanged(  std::bind(&SettingsFileExamples::Component1,  this));
@@ -52,57 +51,13 @@ void SettingsFileExamples::onLoad()
     Cvar_Component5.addOnValueChanged(  std::bind(&SettingsFileExamples::Component5,  this));
     Cvar_Component6.addOnValueChanged(  std::bind(&SettingsFileExamples::Component6,  this));
     Cvar_Component12.addOnValueChanged( std::bind(&SettingsFileExamples::Component12, this));
-    //Cvar_Component13.addOnValueChanged( std::bind(&SettingsFileExamples::Component13, this));
+    Cvar_Component13.addOnValueChanged( std::bind(&SettingsFileExamples::Component13, this));
 
 
-    //Extra cvars to make the plugin functional. A couple helpful notes in here, but other than that this can be ignored.
+    //Extra cvars to make the plugin functional. Not intended to be a reference.
     HandleExtraCvars();
 }
 void SettingsFileExamples::onUnload() {}
-void SettingsFileExamples::HandleExtraCvars()
-{
-    //Enable the render function to display the color edit
-    //Note that if you're only binding a variable and not also adding onValueChanged (or vice versa), you can just tack the bind/valuechanged to the end of the register call
-    EnableRender = std::make_shared<bool>(false);
-    cvarManager->registerCvar("Settings_Extra_EnableRender", "0", "Checkbox component", true).bindTo(EnableRender);
-
-    SameLineCheckbox1 = std::make_shared<bool>(false);
-    SameLineCheckbox2 = std::make_shared<bool>(false);
-    cvarManager->registerCvar("Settings_Extra_SameLineCheckbox1", "1", "SameLine example checkbox 1", true).bindTo(SameLineCheckbox1);
-    cvarManager->registerCvar("Settings_Extra_SameLineCheckbox2", "1", "SameLine example checkbox 2", true).bindTo(SameLineCheckbox2);
-
-    GreyedComponentCheckbox1   = std::make_shared<bool>(false);
-    GreyedComponentNesting1    = std::make_shared<bool>(false);
-    GreyedComponentNesting2    = std::make_shared<bool>(false);
-    GreyedComponentNesting3    = std::make_shared<bool>(false);
-    GreyedComponentNesting4    = std::make_shared<bool>(false);
-    GreyedComponentInversion1  = std::make_shared<bool>(false);
-    cvarManager->registerCvar("Settings_Extra_GreyedCheckbox1", "1", "GreyedComponent example checkbox 1", true).bindTo(GreyedComponentCheckbox1);
-    cvarManager->registerCvar("Settings_Extra_GreyedCheckboxNesting1", "1", "GreyedComponent nesting example checkbox 1", true).bindTo(GreyedComponentNesting1);
-    cvarManager->registerCvar("Settings_Extra_GreyedCheckboxNesting2", "1", "GreyedComponent nesting example checkbox 2", true).bindTo(GreyedComponentNesting2);
-    cvarManager->registerCvar("Settings_Extra_GreyedCheckboxNesting3", "1", "GreyedComponent nesting example checkbox 3", true).bindTo(GreyedComponentNesting3);
-    cvarManager->registerCvar("Settings_Extra_GreyedCheckboxNesting4", "1", "GreyedComponent nesting example checkbox 4", true).bindTo(GreyedComponentNesting4);
-    cvarManager->registerCvar("Settings_Extra_GreyedCheckboxInversion1", "1", "GreyedComponent inversion example checkbox 1", true).bindTo(GreyedComponentInversion1);
-}
-
-void SettingsFileExamples::Render(CanvasWrapper canvas)
-{
-    // This function is here to display the color edit component in action
-    // Render is called every game render frame
-
-    //if(!(*EnableRender))
-    //{
-    //    return;
-    //}
-    //
-    //Vector2 TopLeft = {50, 50};
-    //Vector2 BoxSize = {100, 100};
-    //
-    //canvas.SetColor(*Component13_ColorEdit);
-    //canvas.SetPosition(TopLeft);
-    //canvas.FillBox(BoxSize);
-}
-
 
 
 
@@ -190,7 +145,7 @@ void SettingsFileExamples::Component1()
 void SettingsFileExamples::Component2()
 {
     // Result from getFloatValue() could optionally be stored in a separate float variable
-    /*float newRandValueInRange = */cvarManager->getCvar("Settings_Component2").getFloatValue();
+    /*float newRandValueInRange = */cvarManager->getCvar(CVAR_COMPONENT_2).getFloatValue();
     cvarManager->log("New float range random value: " + std::to_string(*Component2_FloatRangeSlider));
 }
 
@@ -215,7 +170,7 @@ void SettingsFileExamples::Component2()
 void SettingsFileExamples::Component3()
 {
     // Result from getIntValue() could optionally be stored in a separate float variable
-    /*int newRandValueInRange = */cvarManager->getCvar("Settings_Component3").getIntValue();
+    /*int newRandValueInRange = */cvarManager->getCvar(CVAR_COMPONENT_3).getIntValue();
     cvarManager->log("New integer range random value: " + std::to_string(*Component3_IntegerRangeSlider));
 }
 
@@ -349,7 +304,7 @@ void SettingsFileExamples::Component9()
 }
 
 
-// COMPONENT 10: Greyed Component Start //
+// COMPONENT 10: Grayed Component Start //
 /*
     FORMAT:
         10|CvarName
@@ -370,13 +325,13 @@ void SettingsFileExamples::Component10()
 }
 
 
-// COMPONENT 11: Greyed Component End //
+// COMPONENT 11: Grayed Component End //
 /*
     FORMAT:
         11|
 
     DESCRIPTION:
-        Closes off the greyed out section started by Component 10
+        Closes off the grayed out section started by Component 10
 
     UI ACTION:
         None.
@@ -411,7 +366,7 @@ void SettingsFileExamples::Component12()
 }
 
 
-// COMPONENT 13: Color Edit - CURRENTLY NOT AVAILABLE. COMING SOON tm
+// COMPONENT 13: Color Edit //
 /*
     FORMAT:
         13|Label|CvarName
@@ -424,9 +379,9 @@ void SettingsFileExamples::Component12()
 
     CONSOLE COMMANDS:
         <CvarName> (<R float value 0-255> <G float value 0-255> <B float value 0-255> <A float value 0-255>)
-        <CvarName> <6 character hex code starting with #>
+        <CvarName> <6 or 8 character hex code starting with #>
 */
 void SettingsFileExamples::Component13()
 {
-    // See Render function at the top of this file for colors in action
+    // See Render function in ExtraFunctions.cpp for colors in action
 }

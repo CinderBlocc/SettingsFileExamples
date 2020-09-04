@@ -56,9 +56,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CvarMacros.h" />
     <ClInclude Include="SettingsFileExamples.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ExtraFunctions.cpp" />
     <ClCompile Include="SettingsFileExamples.cpp" />
   </ItemGroup>
   <ItemGroup>

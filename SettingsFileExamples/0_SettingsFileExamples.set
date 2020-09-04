@@ -3,110 +3,152 @@
 9|Component 0 - Button
 0|Button|Settings_Component0
 
+
 9|
 8|
+
 
 9|Component 1 - Checkbox
 1|Checkbox|Settings_Component1
 
+
 9|
 8|
+
 
 9|Component 2 - Float Range Slider
 2|Float Range Slider|Settings_Component2|0|1
 
+
 9|
 8|
+
 
 9|Component 3 - Integer Range Slider
 3|Integer Range Slider|Settings_Component3|0|100
 
+
 9|
 8|
+
 
 9|Component 4 - Float Slider
 4|Float Slider|Settings_Component4|0|1
 
+
 9|
 8|
+
 
 9|Component 5 - Integer Slider
 5|Integer Slider|Settings_Component5|0|100
 
+
 9|
 8|
+
 
 9|Component 6 - Combobox
 6|Combobox|Settings_Component6|Cat@Cat&Dog@Dog&Pig@Pig&Elephant@Elephant
 
+
 9|
 8|
+
 
 9|Component 7 - Same Line
 1|Same Line Component 1|Settings_Extra_SameLineCheckbox1
 7|
 1|Same Line Component 2|Settings_Extra_SameLineCheckbox2
 
+
 9|
 8|
+
 
 9|Component 8 - Separator
-9|\/   \/   \/   \/   \/   \/   \/   \/   \/   \/   \/   \/   \/   \/   \/   \/   \/
+9|\/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/
 8|
-9|/\   /\   /\   /\   /\   /\   /\   /\   /\   /\   /\   /\   /\   /\   /\   /\   /\
+9|/\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\    /\
+
 
 9|
 8|
+
 
 9|Component 9 - Label
 9|Any text you want can go in here, as long as it is not more than 1024 characters.
 9|Example of dynamic text: Textbox component value ($Settings_Component12$)
 
-9|
-8|
-
-9|Component 10 - Greyed Out Start
-1|Unchecking this will grey out the elements below|Settings_Extra_GreyedCheckbox1
-10|Settings_Extra_GreyedCheckbox1
-0|Example greyed button|Settings_Component0
-7|
-9|Even text can be greyed out. All elements between 10 and 11 will be inaccessible.
-9|
-9|Greyed Component Nesting - CURRENTLY NOT AVAILABLE. COMING SOON tm
-9|NOTE: The indentation is purely for illustration purposes. Nesting is accomplished by stack matching 10s and 11s
-9|>
-7|
-1|Nest Level 1|Settings_Extra_GreyedCheckboxNesting1
-9|    >
-7|
-1|Nest Level 2|Settings_Extra_GreyedCheckboxNesting2
-9|        >
-7|
-1|Nest Level 3|Settings_Extra_GreyedCheckboxNesting3
-9|            >
-7|
-1|Nest Level 4|Settings_Extra_GreyedCheckboxNesting4
-9|
-9|Greyed Component Inversion - CURRENTLY NOT AVAILABLE. COMING SOON tm
-1|Toggle Inversion|Settings_Extra_GreyedCheckboxInversion1
-9|When the Toggle Inversion checkbox is checked, this text will be lit up
-9|When the Toggle Inversion checkbox is unchecked, this text will be lit up
 
 9|
 8|
 
-9|Component 11 - Greyed Out End
+
+//NOTE: Indentations here are for readability and are not necessary for grayed component to work
+
+9|Component 10 - Grayed Out Start
+1|Unchecking this will gray out the elements below|Settings_Extra_GrayedCheckbox
+10|Settings_Extra_GrayedCheckbox
+    0|Example grayed button|Settings_Extra_GrayedComponentButton
+    7|
+    9|Even text can be grayed out. All elements between 10 and 11 will be inaccessible.
+    
+    9|
+
+    9|GRAYED COMPONENT NESTING
+    9|NOTE: The indentation is purely for illustration purposes. Nesting is accomplished by stack matching 10s and 11s
+    9|>
+    7|
+    1|Nest Level 1|Settings_Extra_GrayedCheckboxNesting1
+    10|Settings_Extra_GrayedCheckboxNesting1
+        9|    >
+        7|
+        1|Nest Level 2|Settings_Extra_GrayedCheckboxNesting2
+        10|Settings_Extra_GrayedCheckboxNesting2
+            9|        >
+            7|
+            1|Nest Level 3|Settings_Extra_GrayedCheckboxNesting3
+            10|Settings_Extra_GrayedCheckboxNesting3
+                9|            >
+                7|
+                1|Nest Level 4|Settings_Extra_GrayedCheckboxNesting4
+            11|
+        11|
+    11|
+
+    9|
+    
+    9|GRAYED COMPONENT INVERSION
+    1|Toggle Inversion|Settings_Extra_GrayedCheckboxInversion
+    10|Settings_Extra_GrayedCheckboxInversion
+        9|When the Toggle Inversion checkbox is checked, this text will be lit up
+    11|
+    10|!Settings_Extra_GrayedCheckboxInversion
+        9|When the Toggle Inversion checkbox is unchecked, this text will be lit up
+    11|
+    
+
+    9|
+    8|
+    
+
+    9|Component 11 - Grayed Out End
 11|
 
+
 9|
 8|
+
 
 9|Component 12 - Textbox
 12|Textbox|Settings_Component12
 
+
 9|
 8|
 
+
 9|Component 13 - Color Edit
 1|Enable canvas render to show color|Settings_Extra_EnableRender
-9|COLOR EDIT IS CURRENTLY NOT AVAILABLE. COMING SOON tm
+13|Color Edit|Settings_Component13

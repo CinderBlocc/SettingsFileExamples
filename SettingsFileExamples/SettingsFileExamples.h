@@ -15,28 +15,29 @@ private:
     //                           Component7_SameLine;              // Puts the previous and the next UI components on the same line
     //                           Component8_Separator;             // Draws a horizontal line across the whole plugin window
     //                           Component9_Label;                 // Draws text. Can display cvar values (9|cl_goalreplay_pov value is $cl_goalreplay_pov$)
-    //                           Component10_GreyedComponentStart; // Will disable all components below if the evaluated cvar is false until grayed component end is found
-    //                           Component11_GreyedComponentEnd;   // Ends the earlier declared grayed component section
+    //                           Component10_GrayedComponentStart; // Will disable all components below if the evaluated cvar is false until grayed component end is found
+    //                           Component11_GrayedComponentEnd;   // Ends the earlier declared grayed component section
     std::shared_ptr<std::string> Component12_Textbox;              // Cvar value = textbox value. Note: this will automatically be applied as soon as a single character is added/removed/changed.
-    //std::shared_ptr<LinearColor> Component13_ColorEdit;            // Color selector
+    std::shared_ptr<LinearColor> Component13_ColorEdit;            // Color editor, RGBA 0-255
 
 
     //Extra cvars to make this plugin functional
     std::shared_ptr<bool> EnableRender;
     std::shared_ptr<bool> SameLineCheckbox1;
     std::shared_ptr<bool> SameLineCheckbox2;
-    std::shared_ptr<bool> GreyedComponentCheckbox1;
-    std::shared_ptr<bool> GreyedComponentNesting1;
-    std::shared_ptr<bool> GreyedComponentNesting2;
-    std::shared_ptr<bool> GreyedComponentNesting3;
-    std::shared_ptr<bool> GreyedComponentNesting4;
-    std::shared_ptr<bool> GreyedComponentInversion1;
+    std::shared_ptr<bool> GrayedComponentCheckbox1;
+    std::shared_ptr<bool> GrayedComponentNesting1;
+    std::shared_ptr<bool> GrayedComponentNesting2;
+    std::shared_ptr<bool> GrayedComponentNesting3;
+    std::shared_ptr<bool> GrayedComponentNesting4;
+    std::shared_ptr<bool> GrayedComponentInversion1;
 
 public:
 	void onLoad() override;
 	void onUnload() override;
     void Render(CanvasWrapper canvas);
     void HandleExtraCvars();
+    void SetColorExample();
 
     // For more information about each component, go to the implementation of the following functions
     void Component0();
